@@ -1,6 +1,7 @@
 require_relative 'player'
 require_relative 'game_library'
 require_relative 'questions'
+require_relative 'UI'
 
   module MathGame
 
@@ -19,8 +20,10 @@ require_relative 'questions'
       end
 
       def start
-                
+
         loop do
+          system "clear"
+          header = UI.new.header
           new_question = Questions.new
           puts "Player #{@current_player + 1}:"
 
