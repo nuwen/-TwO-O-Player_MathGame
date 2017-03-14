@@ -13,6 +13,7 @@ require_relative 'UI'
           @players.push(Player.new(number))
         end
         @current_player = 0
+        @header = UI.new
       end
 
       def game_over?
@@ -23,7 +24,7 @@ require_relative 'UI'
 
         loop do
           system "clear"
-          header = UI.new.header
+          @header.header(@players[0].lives, @players[1].lives)
           new_question = Questions.new
           puts "Player #{@current_player + 1}:"
 
@@ -33,23 +34,23 @@ require_relative 'UI'
           puts "Answer was #{answer}"
 
           if (new_question.answer_checker?(answer.to_i))
-            puts "Correct!"
+            puts "Correct! Press Enter to continue.."
+            gets
           else
-            puts "WRONG!!!"
+            puts "WRONG!!! Press Enter to continue.."
             @players[@current_player].lose_life
+            gets
           end
-
-          puts "P1: #{@players[0].lives}/3 vs P2: #{@players[1].lives}/3"
-          puts "----- NEW TURN -----"
 
           @current_player += 1
 
           if game_over?
-
+            system "clear"
+            @header.header(@players[0].lives, @players[1].lives)
+            @header.gameover
             puts "GAME OVER for PLAYER #{@current_player}"
             break
           end
-
 
           if @current_player == @players.length
               @current_player =0
