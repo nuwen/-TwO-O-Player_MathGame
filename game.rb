@@ -1,4 +1,6 @@
 require_relative 'player'
+require_relative 'game_library'
+require_relative 'questions'
 
   module MathGame
 
@@ -17,26 +19,30 @@ require_relative 'player'
       end
 
       def start
-        puts 'Game Started'
+                
         loop do
+          new_question = Questions.new
+          puts "Player #{@current_player + 1}:"
 
-          puts "Player #{@current_player + 1}: What does 5 plus 3 equal?"
-
+          question = new_question.question_generator
           answer = gets.chomp
 
           puts "Answer was #{answer}"
 
-          if answer.to_i == 8
+          if (new_question.answer_checker?(answer.to_i))
             puts "Correct!"
           else
-            "WRONG!!!"
+            puts "WRONG!!!"
             @players[@current_player].lose_life
           end
 
           puts "P1: #{@players[0].lives}/3 vs P2: #{@players[1].lives}/3"
+          puts "----- NEW TURN -----"
+
           @current_player += 1
 
           if game_over?
+
             puts "GAME OVER for PLAYER #{@current_player}"
             break
           end
@@ -46,8 +52,6 @@ require_relative 'player'
               @current_player =0
 
           end
-
-
         end
       end
     end
